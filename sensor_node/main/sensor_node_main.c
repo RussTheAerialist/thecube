@@ -8,13 +8,12 @@
 
 #include "display.h"
 #include "imu.h"
+#include "i2c.h"
 
 void print_startup_info() {
   const esp_app_desc_t* description = esp_ota_get_app_description();
   printf("Bungee Sensor v%s\n", description->version);
 }
-
-void setup_i2c() { }
 
 void app_main(void)
 {
