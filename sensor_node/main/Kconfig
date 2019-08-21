@@ -1,0 +1,47 @@
+menu "SensorNode"
+    config I2C_MASTER_SCL
+        int "SCL GPIO Num"
+        default 19
+        help
+            GPIO number for I2C Master clock line.
+    
+    config I2C_MASTER_SDA
+        int "SDA GPIO Num"
+        default 18
+        help
+            GPIO number for I2C Master data line.
+    
+    config I2C_MASTER_PORT_NUM
+        int "Port Number"
+        default 1
+        help
+            Port number for I2C Master device.
+    
+    config I2C_MASTER_FREQUENCY
+        int "Master Frequency"
+        default 100000
+        help
+            I2C Speed of Master device.
+    
+    config ENABLE_DISPLAY
+        bool "Enable Display"
+        help
+            Select this if this node will have a display attached to it
+    
+    config ENABLE_ROOT
+        bool "Root Node"
+        help
+            Select this if the node will be the root node
+    
+    config WIFI_SSID
+        string "SSID"
+        depends on ENABLE_ROOT
+        help
+            The Wifi ssid to connect to
+    
+    config WIFI_PASSWD
+        string "PASSWORD"
+        depends on ENABLE_ROOT
+        help
+            The password for the wifi network
+endmenu

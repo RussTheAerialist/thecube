@@ -6,7 +6,9 @@
 #include "esp_app_format.h"
 #include "esp_ota_ops.h"
 
+#ifdef CONFIG_ENABLE_DISPLAY
 #include "display.h"
+#endif // CONFIG_ENABLE_DISPLAY
 #include "imu.h"
 #include "i2c.h"
 
@@ -20,9 +22,9 @@ void app_main(void)
   print_startup_info();
   setup_i2c();
   configure_imu();
-#ifdef ROOT_NODE
+#ifdef CONFIG_ENABLE_DISPLAY
   configure_display();
-#endif // ROOT_NODE
+#endif // CONFIG_ENABLE_DISPLAY
 
     // TODO: Replace with event loop
     for (int i = 10; i >= 0; i--) {
