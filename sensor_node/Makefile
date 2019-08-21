@@ -4,6 +4,7 @@
 #
 
 PROJECT_NAME := sensor-node
+EXTRA_CPPFLAGS := -DROOT_NODE
 
 include $(IDF_PATH)/make/project.mk
 

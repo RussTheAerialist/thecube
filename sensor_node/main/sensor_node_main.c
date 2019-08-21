@@ -6,16 +6,24 @@
 #include "esp_app_format.h"
 #include "esp_ota_ops.h"
 
+#include "display.h"
+#include "imu.h"
+
 void print_startup_info() {
   const esp_app_desc_t* description = esp_ota_get_app_description();
-
   printf("Bungee Sensor v%s\n", description->version);
 }
 
+void setup_i2c() { }
 
 void app_main(void)
 {
   print_startup_info();
+  setup_i2c();
+  configure_imu();
+#ifdef ROOT_NODE
+  configure_display();
+#endif // ROOT_NODE
 
     // TODO: Replace with event loop
     for (int i = 10; i >= 0; i--) {
