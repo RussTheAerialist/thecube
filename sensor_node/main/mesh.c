@@ -41,6 +41,16 @@ void mesh_event_handler(void *arg, esp_event_base_t event_base, int32_t event_id
 			/* TODO handler for the failure */
 			break;
 
+			case MESH_EVENT_PARENT_CONNECTED: {
+				mesh_event_connected_t *connected = (mesh_event_connected_t *)event_data;
+				esp_mesh_get_id(&id);
+				if (esp_mesh_is_root()) {
+					tcpip_adapter_dhcpc_start(TCPIP_ADAPTER_IF_STA);
+				}
+				// esp_mesh_comm_p2p_start();
+				}
+				break;
+
 		default:
 			ESP_LOGI(TAG, "unknown id:%d", event_id);
 			break;
