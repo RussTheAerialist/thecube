@@ -5,6 +5,7 @@
 #include "esp_spi_flash.h"
 #include "esp_app_format.h"
 #include "esp_ota_ops.h"
+#include "esp_log.h"
 
 #ifdef CONFIG_ENABLE_DISPLAY
 #include "display.h"
@@ -12,14 +13,10 @@
 #include "imu.h"
 #include "i2c.h"
 
-void print_startup_info() {
-  const esp_app_desc_t* description = esp_ota_get_app_description();
-  printf("Bungee Sensor v%s\n", description->version);
-}
+static const char* TAG = "sensor";
 
 void app_main(void)
 {
-  print_startup_info();
   setup_i2c();
   configure_imu();
 #ifdef CONFIG_ENABLE_DISPLAY
@@ -28,10 +25,10 @@ void app_main(void)
 
     // TODO: Replace with event loop
     for (int i = 10; i >= 0; i--) {
-        printf("Restarting in %d seconds...\n", i);
+        ESP_LOGV(TAG, "Restarting in %d seconds...", i);
         vTaskDelay(1000 / portTICK_PERIOD_MS);
     }
-    printf("Restarting now.\n");
+    ESP_LOGI(TAG, "Restarting now");
     fflush(stdout);
     esp_restart();
 }
