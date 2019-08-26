@@ -15,9 +15,10 @@ static esp_err_t master_init(int port) {
   config.mode = I2C_MODE_MASTER;
   config.sda_io_num = I2C_MASTER_SDA_IO;
   config.sda_pullup_en = GPIO_PULLUP_ENABLE;
+  config.scl_pullup_en = GPIO_PULLUP_ENABLE;
   config.scl_io_num = I2C_MASTER_SCL_IO;
   config.master.clk_speed = I2C_MASTER_FREQ_HZ;
-  i2c_param_config(port, &config);
+  ESP_ERROR_CHECK(i2c_param_config(port, &config));
   return i2c_driver_install(port, config.mode,
       I2C_MASTER_RX_BUF_DISABLE, I2C_MASTER_TX_BUF_DISABLE, 0); // TODO: what are these?
 }

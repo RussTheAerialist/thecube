@@ -27,8 +27,8 @@ void app_main(void)
   configure_display();
 #endif // CONFIG_ENABLE_DISPLAY
 
-  configure_mesh();
-  mesh_event_loop();
+  // configure_mesh();
+  // mesh_event_loop();
 
     // // TODO: Replace with event loop
     // for (int i = 10; i >= 0; i--) {
