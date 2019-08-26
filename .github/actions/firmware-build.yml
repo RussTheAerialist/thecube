@@ -1,0 +1,7 @@
+name: "FirmwareBuild"
+description: "Build a firmware"
+inputs:
+  configuration_file:
+    description: "The configuration file used to configure the firmware"
+  output_filename:
+    description: "The name of the output filename"

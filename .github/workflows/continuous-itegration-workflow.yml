@@ -1,0 +1,13 @@
+name: Create Firmware
+on:
+  push:
+    branches:
+    - master
+
+jobs:
+  build:
+    name: Compile Leaf Node
+    steps:
+    - uses: actions/checkout@v1
+      with: 
+        fetch-depth: 1
