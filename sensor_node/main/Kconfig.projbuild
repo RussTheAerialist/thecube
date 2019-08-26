@@ -23,6 +23,12 @@ menu "_SensorNode"
         help
             I2C Speed of Master device.
 
+    config IMU_ADDRESS
+        int "IMU_ADDR"
+        default 0x68
+        help
+            "The device address for the IMU unit"
+
     config ENABLE_DISPLAY
         bool "Enable Display"
         help
@@ -31,6 +37,10 @@ menu "_SensorNode"
     config MESH_AP_PASSWD
         string "ap password"
         default "bungee123"
+
+
+    config ENABLE_ROOT
+        bool "Root Node"
         help
             The mesh network id, same for all nodes in a single network
 
