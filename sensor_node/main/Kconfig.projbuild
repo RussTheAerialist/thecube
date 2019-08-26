@@ -40,20 +40,56 @@ menu "_SensorNode"
         help
             The Device address for the display
 
-    config ENABLE_ROOT
-        bool "Root Node"
+    config MESH_AP_PASSWD
+        string "ap password"
+        default "bungee123"
         help
-            Select this if the node will be the root node
+            The mesh network id, same for all nodes in a single network
 
-    config WIFI_SSID
+    config MESH_ROUTER_SSID
         string "SSID"
-        depends on ENABLE_ROOT
         help
-            The Wifi ssid to connect to
+            SSID for the mesh network
 
-    config WIFI_PASSWD
-        string "PASSWORD"
-        depends on ENABLE_ROOT
+    config MESH_ROUTER_PASSWORD
+        string "PASSWD"
         help
-            The password for the wifi network
+            password for the mesh network
+
+    config MESH_AP_CONNECTIONS
+        int "Max Connections"
+        default 10
+        help
+            How many nodes will be in the network
+
+    config MESH_CHANNEL
+        int "Channel"
+        default 1
+        help
+            The network channel for the router
+
+    choice
+        bool "Mesh AP Authentication Mode"
+        default WIFI_AUTH_WPA2_PSK
+        help
+            Authentication mode.
+
+        config WIFI_AUTH_OPEN
+            bool "WIFI_AUTH_OPEN"
+        config WIFI_AUTH_WPA_PSK
+            bool "WIFI_AUTH_WPA_PSK"
+        config WIFI_AUTH_WPA2_PSK
+            bool "WIFI_AUTH_WPA2_PSK"
+        config WIFI_AUTH_WPA_WPA2_PSK
+            bool "WIFI_AUTH_WPA_WPA2_PSK"
+    endchoice
+
+    config MESH_AP_AUTHMODE
+        int
+        default 0 if WIFI_AUTH_OPEN
+        default 2 if WIFI_AUTH_WPA_PSK
+        default 3 if WIFI_AUTH_WPA2_PSK
+        default 4 if WIFI_AUTH_WPA_WPA2_PSK
+        help
+            Mesh AP authentication mode.
 endmenu
