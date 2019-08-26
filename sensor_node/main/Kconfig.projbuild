@@ -23,10 +23,22 @@ menu "_SensorNode"
         help
             I2C Speed of Master device.
 
+    config IMU_ADDRESS
+        int "IMU_ADDR"
+        default 0x68
+        help
+            "The device address for the IMU unit"
+
     config ENABLE_DISPLAY
         bool "Enable Display"
         help
             Select this if this node will have a display attached to it
+
+    config DISPLAY_ADDRESS
+        string "DSP_ADDR"
+        depends on ENABLE_DISPLAY
+        help
+            The Device address for the display
 
     config ENABLE_ROOT
         bool "Root Node"
