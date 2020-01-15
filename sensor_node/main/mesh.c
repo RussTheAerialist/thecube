@@ -45,14 +45,33 @@ void mesh_event_handler(void *arg, esp_event_base_t event_base, int32_t event_id
 				mesh_event_connected_t *connected = (mesh_event_connected_t *)event_data;
 				esp_mesh_get_id(&id);
 				if (esp_mesh_is_root()) {
+					ESP_LOGI(TAG, "Enabling DHCPC because Root");
 					tcpip_adapter_dhcpc_start(TCPIP_ADAPTER_IF_STA);
 				}
 				// esp_mesh_comm_p2p_start();
 				}
 				break;
 
+		case MESH_EVENT_TODS_STATE: {
+        mesh_event_toDS_state_t *toDs_state = (mesh_event_toDS_state_t *)event_data;
+        if (*toDs_state == 0) {
+					ESP_LOGI(TAG, "Unable to connect to outside network");
+				} else {
+					ESP_LOGI(TAG, "Connected to external network");
+				}
+			break;
+		}
+
+		case MESH_EVENT_PARENT_DISCONNECTED: break; // We don't care about Parent Disconnected
+		case MESH_EVENT_ROOT_ADDRESS: {
+			mesh_event_root_address_t *addr = (mesh_event_root_address_t *)event_data;
+			ESP_LOGI(TAG, "<MESH_EVENT_ROOT_ADDRESS> %02x:%02x:%02x:%02x:%02x:%02x",
+				addr->addr[0], addr->addr[1], addr->addr[2], addr->addr[3], addr->addr[4], addr->addr[5]);
+			break;
+		}
+
 		default:
-			ESP_LOGI(TAG, "unknown id:%d", event_id);
+			ESP_LOGI(TAG, "unknown id:%02d", event_id);
 			break;
 	 }
 
@@ -121,4 +140,5 @@ void configure_mesh() {
 
 void mesh_event_loop() {
 	ESP_LOGI(TAG, "Event loop started");
+
 }
