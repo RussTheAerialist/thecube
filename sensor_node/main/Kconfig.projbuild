@@ -25,7 +25,7 @@ menu "_SensorNode"
 
     config IMU_ADDRESS
         int "IMU_ADDR"
-        default 0x68
+        default 105
         help
             "The device address for the IMU unit"
 
