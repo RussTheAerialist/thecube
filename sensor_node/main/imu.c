@@ -3,6 +3,10 @@
 #include "driver/i2c.h"
 #include "i2c.h"
 
+static uint16_t ntohs(uint16_t v) {
+	return (v >> 8) | (v << 8);
+}
+
 #define START_CMD(reg) \
 		{ \
 		i2c_cmd_handle_t cmd = i2c_cmd_link_create(); \
@@ -75,12 +79,17 @@ data_frame_t read_data_frame() {
 	ESP_ERROR_CHECK(i2c_master_read_byte(cmd, data + DATA_FRAME_SIZE - 1, I2C_MASTER_LAST_NACK));
 	END_CMD
 
-	ESP_LOGI(TAG, "gyro=(%d, %d, %d) accel=(%d, %d, %d)",
+	ESP_LOGI(TAG, "gyro=(%5d, %5d, %5d) accel=(%5d, %5d, %5d)",
 		retval.gyro.x, retval.gyro.y, retval.gyro.z,
 		retval.accel.x, retval.accel.y, retval.accel.z
 	);
 
-	// TODO: Fix endian values before returning
+	retval.gyro.x = ntohs(retval.gyro.x);
+	retval.gyro.y = ntohs(retval.gyro.y);
+	retval.gyro.z = ntohs(retval.gyro.z);
+	retval.accel.x = ntohs(retval.accel.x);
+	retval.accel.y = ntohs(retval.accel.y);
+	retval.accel.z = ntohs(retval.accel.z);
 
 	return retval;
 }
@@ -161,10 +170,10 @@ void configure_imu() {
 }
 
 void imuRead(void * parameter) {
-	vTaskDelay(10000 / portTICK_PERIOD_MS); // wait 10 seconds
+	vTaskDelay(5000 / portTICK_PERIOD_MS); // wait 10 seconds
 	while(true) {
 		global_last_data_frame = read_data_frame();
-		vTaskDelay(1000 / portTICK_PERIOD_MS); // 100ms frame distance
+		vTaskDelay(100 / portTICK_PERIOD_MS); // 100ms frame distance
 	}
 	vTaskDelete(NULL); // Stop the task when ready
 }
