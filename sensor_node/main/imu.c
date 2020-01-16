@@ -64,6 +64,8 @@ typedef struct data_frame_struct {
 } data_frame_t;
 #define DATA_FRAME_SIZE (sizeof(data_frame_t))
 
+static volatile data_frame_t global_last_data_frame = { 0 };
+
 data_frame_t read_data_frame() {
   data_frame_t retval = { 0 };
 	uint8_t* data = (uint8_t *)&retval;
@@ -77,6 +79,8 @@ data_frame_t read_data_frame() {
 		retval.gyro.x, retval.gyro.y, retval.gyro.z,
 		retval.accel.x, retval.accel.y, retval.accel.z
 	);
+
+	// TODO: Fix endian values before returning
 
 	return retval;
 }
@@ -159,7 +163,7 @@ void configure_imu() {
 void imuRead(void * parameter) {
 	vTaskDelay(10000 / portTICK_PERIOD_MS); // wait 10 seconds
 	while(true) {
-		read_data_frame();
+		global_last_data_frame = read_data_frame();
 		vTaskDelay(1000 / portTICK_PERIOD_MS); // 100ms frame distance
 	}
 	vTaskDelete(NULL); // Stop the task when ready
