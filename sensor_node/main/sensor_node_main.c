@@ -39,14 +39,5 @@ void app_main(void)
   configure_mesh();
   mesh_event_loop(); // replace this with above event loop
 
-  // TODO: Register timer for pulling data from i2c
-
-    // // TODO: Replace with event loop
-    // for (int i = 10; i >= 0; i--) {
-    //     ESP_LOGV(TAG, "Restarting in %d seconds...", i);
-    //     vTaskDelay(1000 / portTICK_PERIOD_MS);
-    // }
-    // ESP_LOGI(TAG, "Restarting now");
-    // fflush(stdout);
-    // esp_restart();
+  start_imu_tasks();
 }
